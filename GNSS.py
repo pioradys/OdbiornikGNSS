@@ -1,7 +1,7 @@
 import pigpio
 import RGB1602
 import io
-import time
+import timeX
 import math
 import sys
 import pynmea2
@@ -68,14 +68,14 @@ def main():
                         msgcounter=parsed_message.num_messages
                        
 msg_snr_list=[parsed_message.snr_1,parsed_message.snr_2,parsed_message.snr_3,parsed_message.snr_4]
-                        for snr in msg_snr_list:
+for snr in msg_snr_list:
                             if snr:
                                 GSVS.append(int(snr))
-                        GSVS.sort(reverse=True)
-                        if msgcounter == parsed_message.msg_num:
+                            GSVS.sort(reverse=True)
+if msgcounter == parsed_message.msg_num:
                             snr1=sum(GSVS[:5])
                             GSVS.clear()
-        if openned_antenna2:
+if openned_antenna2:
                 antenna_works=True
                 count, data = pi.bb_serial_read(RX)
                 if count>0:
@@ -93,22 +93,22 @@ msg_snr_list=[parsed_message.snr_1,parsed_message.snr_2,parsed_message.snr_3,par
                                         msgcounter2=parsed_messages_list[x].num_messages
                                        
 msg_snr_list=[parsed_messages_list[x].snr_1,parsed_messages_list[x].snr_2,parsed_messages_list[x].snr_3,parsed_messages_list[x].snr_4]
-                                        for snr2 in msg_snr_list:
+for snr2 in msg_snr_list:
                                             if snr2:
                                                 GSVS2.append(int(snr2))
-                                        GSVS2.sort(reverse=True)
-                                        snr2=sum(GSVS2[:5])
-                                        if msgcounter2==parsed_messages_list[x].msg_num:
+                                            GSVS2.sort(reverse=True)
+snr2=sum(GSVS2[:5])
+if msgcounter2==parsed_messages_list[x].msg_num:
                                             GSVS2.clear()
-        if antenna_works:
+if antenna_works:
             printonLCD(snr2,snr1,lat1,lat_dir1,lat2,lat_dir2,lon1,lon_dir1,lon2,lon_dir2,lcd)
-        try:
+try:
                 pi.bb_serial_read_close(RX)
                 pi.stop()
                 openned_antenna2=False
-        except KeyboardInterrupt:
+except KeyboardInterrupt:
                 sys.exit()
-        except:
+except:
             pass
 def printonLCD(snr2,snr1,lat1,lat_dir1,lat2,lat_dir2,lon1,lon_dir1,lon2,lon_dir2,lcd):
        if snr1>=snr2:
